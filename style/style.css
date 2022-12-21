@@ -1,0 +1,22 @@
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container{
+    display: flex;
+    margin: 5%;
+    width: 90vw;
+    height: 90vh;
+    background-color: aqua;
+}
+/* side bar */
+
+/* main */
+/* .main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: azure;
+    width: 100%;
+} */
