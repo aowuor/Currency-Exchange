@@ -2,11 +2,13 @@ let obje;
 let date = new Date().getDate()
 let originalRate = document.getElementById('original')
 let revisedRate = document.getElementById('revised')
+let url1 = "https://open.er-api.com/v6/latest/USD"
+let url2 =  "http://localhost:3000/exchangeRates"
 
 document.addEventListener("DOMContentLoaded",() => {
-    customFetch("https://open.er-api.com/v6/latest/USD", "GET")
+    customFetch(url1, "GET")
     createObject
-    
+    customFetch(url2, "GET")
 } )
 
 function createObject(rates){
@@ -17,11 +19,11 @@ function createObject(rates){
         base_code: rates.base_code,
         rates: rates.rates
     }
-    customFetch("http://localhost:3000/exchangeRates", "POST", obje)
+    if(rates.time_last_update_utc.split(" ")[1] != date){
+        customFetch(url2, "POST", obje)
+    }
 }
 
-// originalRate.addEventListener("click", getAPIData)
-// revisedRate.addEventListener("click", getDatabaseData)
 
 // Display Exchange Rates
 function renderExchangeRate(rates){
@@ -78,13 +80,11 @@ function calculateEquivalentAmount(rates){
 
 
 function postToDatabase(rates){
-    // if(rates.time_last_update_utc.split(" ")[1] != date){
-    //     customFetch("http://localhost:3000/exchangeRates", "POST", obje)
-    // }
+    
     let originalRate = document.getElementById('original')
     originalRate.addEventListener("click", () => {
         createObject
-        customFetch("http://localhost:3000/exchangeRates", "POST", obje)
+        customFetch(url2, "POST", obje)
     })
 
 }
@@ -94,23 +94,15 @@ function updateDatabase(){
     updateForm.addEventListener("submit", (e) => {
         e.preventDefault()
         obje.rates[updateForm.currencyInput.value] = `${updateForm.rateInput.value}`
-        customFetch(`http://localhost:3000/exchangeRates`, "PATCH", obje)  
+        customFetch(url2, "PATCH", obje)  
     })
 }
 updateDatabase()
 
-// function getAPIData(){
-//     customFetch("https://open.er-api.com/v6/latest/USD", "GET")  
-// }
-
-// function getDatabaseData(){
-//     customFetch("http://localhost:3000/exchangeRates", "GET")
-// }
-
 // custom GET, POST, PATCH and DELETE Fetch functions
 function customFetch(url,type,data){
     if(type === "GET"){
-        fetch(url, {
+        fetch(url1, {
             method: type,
         })
         .then((res)=> res.json())
@@ -123,6 +115,7 @@ function customFetch(url,type,data){
             postToDatabase(data)
         })
         .catch((error) => console.log(error))
+    
     }
     if(type === "POST"){
         fetch(url, {
