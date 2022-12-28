@@ -1,16 +1,27 @@
 let obje;
 let date = new Date().getDate()
-let firstTime = true;
 let originalRate = document.getElementById('original')
 let revisedRate = document.getElementById('revised')
 
-if(firstTime){
+document.addEventListener("DOMContentLoaded",() => {
     customFetch("https://open.er-api.com/v6/latest/USD", "GET")
-    firstTime = false
+    createObject
+    
+} )
+
+function createObject(rates){
+    obje = {
+        time_last_update_utc: rates.time_last_update_utc,
+        time_next_update_utc:rates.time_next_update_utc,
+        time_eol_unix: rates.time_eol_unix,
+        base_code: rates.base_code,
+        rates: rates.rates
+    }
+    customFetch("http://localhost:3000/exchangeRates", "POST", obje)
 }
 
-originalRate.addEventListener("click", getAPIData)
-revisedRate.addEventListener("click", getDatabaseData)
+// originalRate.addEventListener("click", getAPIData)
+// revisedRate.addEventListener("click", getDatabaseData)
 
 // Display Exchange Rates
 function renderExchangeRate(rates){
@@ -64,22 +75,12 @@ function calculateEquivalentAmount(rates){
     })   
 }
 
-function createObject(rates){
-    obje = {
-        time_last_update_utc: rates.time_last_update_utc,
-        time_next_update_utc:rates.time_next_update_utc,
-        time_eol_unix: rates.time_eol_unix,
-        base_code: rates.base_code,
-        rates: rates.rates
-    }
-    // console.log(obje.time_last_update_utc)
-    // console.log(rates.time_last_update_utc)
-}
+
 
 function postToDatabase(rates){
-    if(rates.time_last_update_utc.split(" ")[1] != date){
-        customFetch("http://localhost:3000/exchangeRates", "POST", obje)
-    }
+    // if(rates.time_last_update_utc.split(" ")[1] != date){
+    //     customFetch("http://localhost:3000/exchangeRates", "POST", obje)
+    // }
     let originalRate = document.getElementById('original')
     originalRate.addEventListener("click", () => {
         createObject
@@ -98,13 +99,13 @@ function updateDatabase(){
 }
 updateDatabase()
 
-function getAPIData(){
-    customFetch("https://open.er-api.com/v6/latest/USD", "GET")  
-}
+// function getAPIData(){
+//     customFetch("https://open.er-api.com/v6/latest/USD", "GET")  
+// }
 
-function getDatabaseData(){
-    customFetch("http://localhost:3000/exchangeRates", "GET")
-}
+// function getDatabaseData(){
+//     customFetch("http://localhost:3000/exchangeRates", "GET")
+// }
 
 // custom GET, POST, PATCH and DELETE Fetch functions
 function customFetch(url,type,data){
