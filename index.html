@@ -36,7 +36,7 @@
                             </div>
                             <div class="text-center" id="buttons">
                               <a class="btn btn-dark" id="original" href="#api_rate">Original rate</a>
-                              <a class="btn btn-dark" id="revised" href="#">Revised rate</a>
+                              <a class="btn btn-dark" onclick="myFunction()" id="revised" href="#api_rate">Revised rate</a>
                             </div>
                             <div class="text-center py-3">
                               <h2 id="result"></h2>
@@ -62,7 +62,7 @@
                                     <button id="calculate"  type="submit">Calculate</button>
                                 </form>
                             </div>
-                            <div class="my-4 py-2">
+                            <div class="my-4 py-2" style="display:none" id="updates">
                               <p class="text-primary">Enter currency then set a new rate</p>
                               <form id="updateForm"action="">
                                 <div d-block>

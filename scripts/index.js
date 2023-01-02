@@ -5,11 +5,20 @@ let revisedRate = document.getElementById('revised')
 let url1 = "https://open.er-api.com/v6/latest/USD"
 let url2 =  "http://localhost:3000/exchangeRates"
 
-document.addEventListener("DOMContentLoaded",() => {
+document.addEventListener("DOMContentLoaded",(postToDatabase) => {
     customFetch(url1, "GET")
-    createObject
-    customFetch(url2, "GET")
 } )
+
+originalRate.addEventListener("click", () => {
+    createObject
+    customFetch(url2, "POST", obje)
+})
+
+function myFunction() {
+    document.getElementById('updates').style.display = "block"
+
+}
+
 
 function createObject(rates){
     obje = {
@@ -78,9 +87,7 @@ function calculateEquivalentAmount(rates){
 }
 
 
-
 function postToDatabase(rates){
-    
     let originalRate = document.getElementById('original')
     originalRate.addEventListener("click", () => {
         createObject
@@ -99,10 +106,11 @@ function updateDatabase(){
 }
 updateDatabase()
 
+
 // custom GET, POST, PATCH and DELETE Fetch functions
 function customFetch(url,type,data){
     if(type === "GET"){
-        fetch(url1, {
+        fetch(url, {
             method: type,
         })
         .then((res)=> res.json())
