@@ -2,6 +2,7 @@ let obje;
 let date = new Date().getDate()
 let originalRate = document.getElementById('original')
 let revisedRate = document.getElementById('revised')
+let updates = document.getElementById('updates')
 let url1 = "https://open.er-api.com/v6/latest/USD"
 let url2 =  "http://localhost:3000/exchangeRates"
 
@@ -10,15 +11,18 @@ document.addEventListener("DOMContentLoaded",(postToDatabase) => {
 } )
 
 originalRate.addEventListener("click", () => {
+    updates.style.display = "none"
     createObject
     customFetch(url2, "POST", obje)
 })
 
-function myFunction() {
-    document.getElementById('updates').style.display = "block"
-
+function reviseRate() {
+   if(updates.style.display == "none"){
+    updates.style.display = "block"
+   }else{
+    updates.style.display = "none" 
+   }
 }
-
 
 function createObject(rates){
     obje = {
