@@ -6,16 +6,19 @@ let updates = document.getElementById('updates')
 let url1 = "https://open.er-api.com/v6/latest/USD"
 let url2 =  "http://localhost:3000/exchangeRates"
 
+// Fetches the latest exchange rate from API
 document.addEventListener("DOMContentLoaded",(postToDatabase) => {
     customFetch(url1, "GET")
 } )
 
+// POSTs data fetched from API to local storage
 originalRate.addEventListener("click", () => {
-    updates.style.display = "none"
     createObject
     customFetch(url2, "POST", obje)
+    updates.style.display = "none"
 })
 
+// Displays update form to enable user revise exchange rate
 function reviseRate() {
    if(updates.style.display == "none"){
     updates.style.display = "block"
@@ -24,6 +27,7 @@ function reviseRate() {
    }
 }
 
+// Creates the object to be posted to local storage
 function createObject(rates){
     obje = {
         time_last_update_utc: rates.time_last_update_utc,
@@ -37,7 +41,6 @@ function createObject(rates){
     }
 }
 
-
 // Display Exchange Rates
 function renderExchangeRate(rates){
     let date = document.getElementById('date')
@@ -50,7 +53,7 @@ function renderExchangeRate(rates){
         li.innerText = `${currency} - ${rates.rates[currency]}`     
     }
 }
-       
+
 //Display exchange-rate select options
 function populateFromCurrencyOptions(rates){
     let fromSelect = document.getElementById('from')
@@ -90,16 +93,16 @@ function calculateEquivalentAmount(rates){
     })   
 }
 
-
+// Execute POST request
 function postToDatabase(rates){
     let originalRate = document.getElementById('original')
     originalRate.addEventListener("click", () => {
         createObject
         customFetch(url2, "POST", obje)
     })
-
 }
 
+// Execute PATCH request
 function updateDatabase(){
     let updateForm = document.getElementById('updateForm')
     updateForm.addEventListener("submit", (e) => {
@@ -165,22 +168,3 @@ function customFetch(url,type,data){
         .catch((error) => console.log(error))
     }
 }
-
-// function changeRate(rates){
-//     let updateForm = document.getElementById('updateForm')
-//     updateForm.addEventListener("submit", (e) => {
-//         e.preventDefault()
-//         // console.log(`${updateForm.currencyInput.value} : ${updateForm.rateInput.value} `)
-//         console.log(rates)
-//         for(let key in rates){
-//             // console.log(rt)
-//         }
-        
-//     })
-//     document.getElementById('change').addEventListener("click", () => {
-//         // console.log(`${updateForm.currencyInput.value} : ${updateForm.rateInput.value} `)
-        
-//     })
-
-// }
-// changeRate()
