@@ -11,5 +11,8 @@ Currency Exchange app primarily operates on https://open.er-api.com/v6/latest/US
 5. Use the form to enter a new rate and save the changes to the database
 6. User can reset the database through the 'original rate' button
 
+The Currency Exchange app is available on the link below
+https://aowuor.github.io/Currency-Exchange/
+
 # Author and Licence
 @2022 Angela Owuor
